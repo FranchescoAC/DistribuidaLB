@@ -1,0 +1,83 @@
+name: EC2 deploy from docker
+
+on:
+  push:
+    branches: ["QA"]
+
+jobs:
+  login-and-pull:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERUSERNAME }}
+          password: ${{ secrets.DOCKERPASSWORD }}
+ 
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERUSERNAME }}/qa:latest .
+          docker push ${{ secrets.DOCKERUSERNAME }}/qa:latest
+
+  ssh-connect-ec2_01:
+    runs-on: ubuntu-latest
+    needs: [login-and-pull]
+    steps: 
+      - name: SSH into EC2 and pull the latest Docker image
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_PRD_1 }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY_QA }}
+          script: |
+            if ! command -v docker &> /dev/null; then
+              sudo apt update
+              sudo apt install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+              sudo systemctl restart docker
+            else
+              echo "Docker install"
+            fi
+            
+            if ! sudo systemctl is-active --quiet docker; then
+              sudo systemctl start docker
+            fi  
+
+            sudo docker pull ${{ secrets.DOCKERUSERNAME }}/qa:latest
+            sudo docker stop $(docker ps -q) || true
+            sudo docker run -d -p 3000:3000 ${{ secrets.DOCKERUSERNAME }}/qa:latest
+
+  ssh-connect-ec2_02:
+    runs-on: ubuntu-latest
+    needs: [login-and-pull]
+    steps: 
+      - name: SSH into EC2 and pull the latest Docker image
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_PRD_2 }}
+          username: ubuntu
+          key: ${{ secrets.EC2_KEY_PRD }}
+          script: |
+            if ! command -v docker &> /dev/null; then
+              sudo apt update
+              sudo apt install -y docker.io
+              sudo systemctl start docker
+              sudo systemctl enable docker
+              sudo usermod -aG docker $USER
+              sudo systemctl restart docker
+            else
+              echo "Docker install"
+            fi
+            
+            if ! sudo systemctl is-active --quiet docker; then
+              sudo systemctl start docker
+            fi  
+
+            sudo docker pull ${{ secrets.DOCKERUSERNAME }}/qa:latest
+            sudo docker stop $(docker ps -q) || true
+            sudo docker run -d -p 3000:3000 ${{ secrets.DOCKERUSERNAME }}/qa:latest

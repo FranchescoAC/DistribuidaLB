@@ -23,7 +23,7 @@ jobs:
           docker push ${{ secrets.DOCKERUSERNAME }}/qa:latest
 
   ssh-connect-ec2_01:
-  runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: [login-and-pull]
     steps: 
       - name: SSH into EC2 and pull the latest Docker image

@@ -29,7 +29,7 @@ jobs:
       - name: SSH into EC2 and pull the latest Docker image
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.EC2_PRD_1 }}
+          host: ${{ secrets.EC2_QA_1 }}
           username: ubuntu
           key: ${{ secrets.EC2_KEY_QA }}
           script: |
@@ -59,9 +59,9 @@ jobs:
       - name: SSH into EC2 and pull the latest Docker image
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.EC2_PRD_2 }}
+          host: ${{ secrets.EC2_QA_2 }}
           username: ubuntu
-          key: ${{ secrets.EC2_KEY_PRD }}
+          key: ${{ secrets.EC2_KEY_QA }}
           script: |
             if ! command -v docker &> /dev/null; then
               sudo apt update

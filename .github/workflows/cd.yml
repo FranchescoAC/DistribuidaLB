@@ -7,6 +7,7 @@ on:
     branches: ["main"]
 
 jobs:
+
   login-and-pull-QA:
     if: github.ref == 'refs/heads/QA'
     runs-on: ubuntu-latest
@@ -69,6 +70,7 @@ jobs:
       ec2_host: ${{ secrets.EC2_PRD_1 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
+ 
   ssh-connect-ec2_PRD_02:
     if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
@@ -86,8 +88,7 @@ jobs:
       ec2_host: ${{ secrets.EC2_PRD_3 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
-  
-  
+   
   ssh-connect-ec2_PRD_04:
     if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]

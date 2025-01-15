@@ -5,7 +5,7 @@ const router = Router()
 
 router.get('/', (req, res)=>{
     const hostname = os.hostname();
-    res.send(`Hello you :) ${hostname}`)
+    res.send(`If load balancer works, this change :) ${hostname}`)
 })
 
 export default router

@@ -3,7 +3,8 @@ name: EC2 deploy from docker
 on:
   push:
     branches: ["QA"]
-
+  pull_request:
+    branches: ["main"]
 jobs:
   login-and-pull-QA:
     if: github.ref == 'refs/heads/QA'

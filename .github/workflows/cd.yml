@@ -80,7 +80,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   
   ssh-connect-ec2_PRD_03:
-      if: github.ref == 'refs/heads/QA'
+    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:

@@ -3,8 +3,6 @@ name: EC2 deploy from docker
 on:
   push:
     branches: ["QA"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   login-and-pull-QA:
@@ -44,7 +42,6 @@ jobs:
           docker push ${{ secrets.DOCKERUSERNAME }}/prd:latest
  
   ssh-connect-ec2_QA_01:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:
@@ -53,7 +50,6 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
   ssh-connect-ec2_QA_02:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:
@@ -62,38 +58,34 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
   ssh-connect-ec2_PRD_01:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
       ec2_ip: ${{ secrets.EC2_PRD_1 }}
-      ec2_key: ${{ secrets.EC2_KEY_QA }}
+      ec2_key: ${{ secrets.EC2_KEY_PRD }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
  
   ssh-connect-ec2_PRD_02:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
       ec2_ip: ${{ secrets.EC2_PRD_2 }}
-      ec2_key: ${{ secrets.EC2_KEY_QA }}
+      ec2_key: ${{ secrets.EC2_KEY_PRD }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   
   ssh-connect-ec2_PRD_03:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
       ec2_ip: ${{ secrets.EC2_PRD_3 }}
-      ec2_key: ${{ secrets.EC2_KEY_QA }}
+      ec2_key: ${{ secrets.EC2_KEY_PRD }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
    
   ssh-connect-ec2_PRD_04:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
       ec2_ip: ${{ secrets.EC2_PRD_4 }}
-      ec2_key: ${{ secrets.EC2_KEY_QA }}
+      ec2_key: ${{ secrets.EC2_KEY_PRD }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   

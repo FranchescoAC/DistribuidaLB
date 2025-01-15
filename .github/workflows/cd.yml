@@ -24,7 +24,7 @@ jobs:
           docker push ${{ secrets.DOCKERUSERNAME }}/qa:latest
 
   login-and-pull-PRD:
-    if: github.ref == 'refs/heads/QA'
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -42,7 +42,6 @@ jobs:
           docker push ${{ secrets.DOCKERUSERNAME }}/prd:latest
  
   ssh-connect-ec2_QA_01:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:
@@ -51,7 +50,6 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
   ssh-connect-ec2_QA_02:
-    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:

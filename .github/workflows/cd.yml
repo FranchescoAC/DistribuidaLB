@@ -48,7 +48,7 @@ jobs:
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_QA_1 }}
+      ec2_ip: ${{ secrets.EC2_QA_1 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
@@ -57,7 +57,7 @@ jobs:
     needs: [login-and-pull-QA]
     uses: ./.github/workflows/setup_docker_qa.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_QA_2 }}
+      ec2_ip: ${{ secrets.EC2_QA_2 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
@@ -66,7 +66,7 @@ jobs:
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_PRD_1 }}
+      ec2_ip: ${{ secrets.EC2_PRD_1 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
  
@@ -75,7 +75,7 @@ jobs:
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_PRD_2 }}
+      ec2_ip: ${{ secrets.EC2_PRD_2 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   
@@ -84,7 +84,7 @@ jobs:
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_PRD_3 }}
+      ec2_ip: ${{ secrets.EC2_PRD_3 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
    
@@ -93,7 +93,7 @@ jobs:
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
-      ec2_host: ${{ secrets.EC2_PRD_4 }}
+      ec2_ip: ${{ secrets.EC2_PRD_4 }}
       ec2_key: ${{ secrets.EC2_KEY_QA }}
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   

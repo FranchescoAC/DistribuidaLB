@@ -3,8 +3,6 @@ name: EC2 deploy from docker
 on:
   push:
     branches: ["QA"]
-  pull_request:
-    branches: ["main"]
 
 jobs:
   login-and-pull-QA:
@@ -26,7 +24,7 @@ jobs:
           docker push ${{ secrets.DOCKERUSERNAME }}/qa:latest
 
   login-and-pull-PRD:
-    if: github.event_name == 'pull_request' && github.base_ref == 'main'
+    if: github.ref == 'refs/heads/QA'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -62,7 +60,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
   ssh-connect-ec2_PRD_01:
-    if: github.event_name == 'pull_request' && github.base_ref == 'main' 
+    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -71,7 +69,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
  
   ssh-connect-ec2_PRD_02:
-    if: github.event_name == 'pull_request' && github.base_ref == 'main' 
+    if: github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -80,7 +78,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   
   ssh-connect-ec2_PRD_03:
-    if:  github.event_name == 'pull_request' && github.base_ref == 'main' 
+    if:  github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -89,7 +87,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
    
   ssh-connect-ec2_PRD_04:
-    if:  github.event_name == 'pull_request' && github.base_ref == 'main' 
+    if:  github.ref == 'refs/heads/QA'
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:

@@ -62,7 +62,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
 
   ssh-connect-ec2_PRD_01:
-    if: github.ref == 'refs/heads/QA'
+    if: github.event_name == 'pull_request' && github.base_ref == 'main' 
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -71,7 +71,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
  
   ssh-connect-ec2_PRD_02:
-    if: github.ref == 'refs/heads/QA'
+    if: github.event_name == 'pull_request' && github.base_ref == 'main' 
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -80,7 +80,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
   
   ssh-connect-ec2_PRD_03:
-    if: github.ref == 'refs/heads/QA'
+    if:  github.event_name == 'pull_request' && github.base_ref == 'main' 
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
@@ -89,7 +89,7 @@ jobs:
       docker_username: ${{ secrets.DOCKERUSERNAME }}
    
   ssh-connect-ec2_PRD_04:
-    if: github.ref == 'refs/heads/QA'
+    if:  github.event_name == 'pull_request' && github.base_ref == 'main' 
     needs: [login-and-pull-PRD]
     uses: ./.github/workflows/setup_docker_prd.yml
     secrets:
